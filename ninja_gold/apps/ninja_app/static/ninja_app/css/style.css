@@ -1,0 +1,36 @@
+#your_gold, #your_moves {
+    width:200px;
+    height:20px;
+    border: 1px solid black;
+    display:inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+.setting {
+    width:200px;
+    height:200px;
+    border: 1px solid black;
+    display:inline-block;
+    vertical-align: top;
+    text-align: center;
+    padding: 20px;
+    margin:10px;
+}
+#activities {
+    width:800px;
+    height:200px;
+    border: 1px solid black;
+    vertical-align: top;
+    text-align: center;
+}
+.earned {
+    color: green;
+}
+.lost {
+    color: red;
+}
+#reset {
+    text-decoration: none;
+    color:black;
+    display:inline-block;
+}

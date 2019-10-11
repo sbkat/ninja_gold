@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ninja_app/css/style.css' %}">
+    <title>Ninja Gold</title>
+</head>
+
+<body>
+    <form action="/winning_conditions" method="POST">
+        {% csrf_token %}
+        <input type="text" placeholder="Number of moves" name="input1">
+        <input type="text" placeholder="Goal for gold" name="input2">
+        <button type="submit">Let's Play!</button>
+        <button id="reset" type="submit"><a href="/reset">Reset</a></button>
+    </form>
+    <br>
+    
+
+
+    Your Gold: <div id="your_gold"> {{ request.session.your_gold }}</div><br><br>
+    Your No. of Moves: <div id="your_moves"> {{ request.session.counter }}</div><br>
+    <div class="setting">
+        <h1>Farm</h1>
+        <p>(earns 10-20 golds)</p>
+        <button name="farm" id="farm"><a href="/process_money/farm" style="text-decoration:none;color:black;">Find Gold!</a></button>
+    </div>
+    <div class="setting">
+        <h1>Cave</h1>
+        <p>(earns 5-10 golds)</p>
+        <button name="cave" id="cave"><a href="/process_money/cave" style="text-decoration:none;color:black;">Find Gold!</a></button>
+    </div>
+    <div class="setting">
+        <h1>House</h1>
+        <p>(earns 2-5 golds)</p>
+        <button name="house" id="house"><a href="/process_money/house" style="text-decoration:none;color:black;">Find Gold!</a></button>
+    </div>
+    <div class="setting">
+        <h1>Casino</h1>
+        <p>(earns/takes 0-50 golds)</p>
+        <button name="casino" id="casino"><a href="/process_money/casino" style="text-decoration:none;color:black;">Find Gold!</a></button>
+    </div><br><br>
+    Activites: 
+    <div id="activities">
+       
+        {% if request.session.location == 'farm' %}    
+            <p class="earned">Earned {{ request.session.random_number }} golds from the farm! ({{ time }})</p>
+        {% elif request.session.location == 'cave' %}
+            <p class="earned">Earned {{ request.session.random_number }} golds from the cave! ({{ time }})</p>
+        {% elif request.session.location == 'house' %}
+            <p class="earned">Earned {{ request.session.random_number }} golds from the house! ({{ time }})</p>
+        {% elif request.session.location == 'casino' %}
+            {% if request.session.random_number > 0 %}
+                <p class="earned">Earned {{ request.session.random_number }} golds from the casino! ({{ time }})</p>
+            {% elif request.session.random_number < 0 %}
+                <p class="lost">Entered a casino and lost {{ request.session.random_number_neg }} golds... Ouch.. ({{ time }})</p>
+            {% endif %}
+        {% endif %}
+
+        {% if request.session.number_moves < request.session.counter %}
+            <h1>YOU LOSE!</h1>
+        {% endif %}
+        {% if request.session.gold_goal < request.session.your_gold %}
+            <h1>YOU WIN!</h1>
+        {% endif %}
+
+    </div>
+    <p>request.session.number_moves: {{request.session.number_moves}}</p>
+    <p>request.session.counter: {{request.session.counter}}</p>
+    <p>request.session.gold_goal: {{request.session.gold_goal}}</p>
+    <p>request.session.your_gold: {{request.session.your_gold}}</p>
+</body>
+
+</html>
